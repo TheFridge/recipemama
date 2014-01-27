@@ -1,8 +1,9 @@
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'test/unit'
 require 'rack/test'
+require "minitest/reporters"
+Minitest::Reporters.use!
 
 ENV['RACK_ENV'] = 'test'
 
