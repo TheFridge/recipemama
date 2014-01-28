@@ -20,6 +20,14 @@ class SearchRequestTest < Minitest::Test
     assert_equal "&allowedAllergy[]=393^Gluten-Free", allergies
   end
 
+  def test_diets_formats_correctly
+    VCR.use_cassette('generate_diets') do
+      Diet.generate_diets
+      diets = @searchrecipe.diet_restrictions("pescetarian")
+      assert_equal "&allowedDiet[]=390^Pescetarian", diets
+    end
+  end
+
   def test_allergies_handles_multiple_allergies
     VCR.use_cassette('generate_allergies') do
       Allergy.generate_allergies

@@ -27,12 +27,21 @@ class SearchRecipe
     formatted_codes.join("")  
   end
 
-  def diet_restrictions(*args)
+#Acceptable Diets are: pescetarian, vegan, vegetarian, lacto (lacto-vegetarian), ovo (ovo-vegetarian)
 
+  def diet_restrictions(*args)
+    codes = args.map do |arg|
+      diet = Diet.where("name like ?", "%#{arg.capitalize}%")
+      if diet.any?
+        diet.first.yummly_code
+      end
+    end
+    formatted_codes = codes.map {|code| if code then "&allowedDiet[]=" + code end}
+  formatted_codes.join("")
   end
 
-  def type_category
-
+  def included_courses
+    "&includedCourse[]=course^course-Main Dishes&includedCourse[]=course^course-Salads&includedCourse[]=course^course-Soups"
   end
 
   def remove_spaces(string)

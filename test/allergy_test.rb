@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AllergyTest < Minitest::Test
-
   def setup
     DatabaseCleaner.start
     @allergy = Allergy.new
