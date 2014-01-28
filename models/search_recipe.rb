@@ -14,8 +14,17 @@ class SearchRecipe
     remove_spaces(formatted_ingredients.join(""))
   end
 
-  def allergies(*args)
+#Acceptable allergies are: "wheat, gluten, peanut, tree, dairy, egg, seafood, sesame, soy, sulfite"
 
+  def allergies(*args)
+    codes = args.map do |arg|
+      allergy = Allergy.where("name like ?", "%#{arg.capitalize}%")
+      if allergy.any?
+        allergy.first.yummly_code
+      end
+    end
+    formatted_codes = codes.map {|code| if code then "&allowedAllergy[]=" + code end}
+    formatted_codes.join("")  
   end
 
   def diet_restrictions(*args)

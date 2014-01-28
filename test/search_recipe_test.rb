@@ -13,6 +13,21 @@ class SearchRequestTest < Minitest::Test
     assert_equal "&excludedIngredient[]=garlic&excludedIngredient[]=cognac", @searchrecipe.excluded_ingredients('garlic', 'cognac')
   end
 
+  def test_allergies_formats_correctly
+    allergies = @searchrecipe.allergies("gluten")
+    assert_equal "&allowedAllergy[]=393^Gluten-Free", allergies
+  end
+
+  def test_allergies_handles_multiple_allergies
+    allergies = @searchrecipe.allergies("egg", "gluten")
+    assert_equal "&allowedAllergy[]=397^Egg-Free&allowedAllergy[]=393^Gluten-Free", allergies
+  end
+
+  def test_allergies_handles_unused_allergies
+    allergies = @searchrecipe.allergies("people")
+    assert_equal "", allergies
+  end
+
   # def test_render_ingredients
   #   VCR.use_cassette('toad-in-the-hole') do
   #     assert_equal "Cookie Cutter Toad-in-the-Hole", @getrecipe.get_response('Cookie-Cutter-Toad-in-the-Hole-496678')['id']
