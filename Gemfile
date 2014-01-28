@@ -11,3 +11,4 @@ gem "sinatra-activerecord"
 gem "rake"
 gem 'faraday'
 gem 'json'
+gem 'vcr', '2.4.0'

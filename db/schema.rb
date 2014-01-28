@@ -10,7 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140127214225) do
+ActiveRecord::Schema.define(:version => 20140128003813) do
+
+  create_table "allergies", :force => true do |t|
+    t.string "yummly_id"
+    t.string "name"
+    t.string "yummly_code"
+  end
 
   create_table "keys", :force => true do |t|
     t.string "application_id"

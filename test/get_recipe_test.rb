@@ -7,7 +7,15 @@ class GetRequestTest < Minitest::Test
   end
 
   def test_contribution_link_formats_username
-    assert_equal "boo", @getrecipe.get_url(1)
+    VCR.use_cassette('toad-in-the-hole') do
+      assert_equal "Cookie Cutter Toad-in-the-Hole", @getrecipe.get_response('Cookie-Cutter-Toad-in-the-Hole-496678')['name']
+    end
   end
+
+  # def test_render_ingredients
+  #   VCR.use_cassette('toad-in-the-hole') do
+  #     assert_equal "Cookie Cutter Toad-in-the-Hole", @getrecipe.get_response('Cookie-Cutter-Toad-in-the-Hole-496678')['id']
+  #   end
+  # end
 
 end

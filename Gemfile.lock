@@ -47,6 +47,7 @@ GEM
       sinatra (~> 1.0)
     tilt (1.4.1)
     tzinfo (0.3.38)
+    vcr (2.4.0)
 
 PLATFORMS
   ruby
@@ -62,3 +63,4 @@ DEPENDENCIES
   rake
   sinatra
   sinatra-activerecord
+  vcr (= 2.4.0)
