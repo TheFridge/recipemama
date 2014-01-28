@@ -3,6 +3,7 @@ require 'test_helper'
 class AllergyTest < Minitest::Test
 
   def setup
+    DatabaseCleaner.start
     @allergy = Allergy.new
   end
 
@@ -22,4 +23,7 @@ class AllergyTest < Minitest::Test
     end
   end
 
+  def teardown
+    DatabaseCleaner.clean
+  end
 end

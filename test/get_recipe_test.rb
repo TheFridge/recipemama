@@ -3,7 +3,9 @@ require 'test_helper'
 class GetRequestTest < Minitest::Test
 
   def setup
+    DatabaseCleaner.start
     @getrecipe = GetRecipe.new
+    Key.create(application_id: ENV['YUMMLY_ID'], application_keys: ENV['YUMMLY_KEY'])
   end
 
   def test_contribution_link_formats_username
@@ -18,4 +20,7 @@ class GetRequestTest < Minitest::Test
   #   end
   # end
 
+  def teardown
+    DatabaseCleaner.clean
+  end
 end

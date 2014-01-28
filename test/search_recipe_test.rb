@@ -1,6 +1,8 @@
 class SearchRequestTest < Minitest::Test
 
   def setup
+    DatabaseCleaner.start
+    Key.create(application_id: ENV['YUMMLY_ID'], application_keys: ENV['YUMMLY_KEY'])
     @searchrecipe = SearchRecipe.new
   end
 
@@ -19,8 +21,11 @@ class SearchRequestTest < Minitest::Test
   end
 
   def test_allergies_handles_multiple_allergies
-    allergies = @searchrecipe.allergies("egg", "gluten")
-    assert_equal "&allowedAllergy[]=397^Egg-Free&allowedAllergy[]=393^Gluten-Free", allergies
+    VCR.use_cassette('generate_allergies') do
+      Allergy.generate_allergies
+      allergies = @searchrecipe.allergies("egg", "gluten")
+      assert_equal "&allowedAllergy[]=397^Egg-Free&allowedAllergy[]=393^Gluten-Free", allergies
+    end
   end
 
   def test_allergies_handles_unused_allergies
@@ -33,5 +38,9 @@ class SearchRequestTest < Minitest::Test
   #     assert_equal "Cookie Cutter Toad-in-the-Hole", @getrecipe.get_response('Cookie-Cutter-Toad-in-the-Hole-496678')['id']
   #   end
   # end
+
+  def teardown
+    DatabaseCleaner.clean
+  end
 
 end

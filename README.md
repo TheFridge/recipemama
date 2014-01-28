@@ -1,3 +1,11 @@
+# Testing
+
+```sh
+Testing: RACK_ENV=test rake test
+```
+
+# Database
+
 RecipeMama uses Sinatra Active Record - rake tasks that are allowed are:
 
 ```sh

@@ -1,12 +1,14 @@
 configure :production, :development, :test do
-  db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/recipe_development')
- 
+  env = ENV['RACK_ENV'] || "development"
+
+  db_settings = YAML::load(File.open("config/database.yml"))[env]
+  
   ActiveRecord::Base.establish_connection(
-      :adapter => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
-      :host     => db.host,
-      :username => db.user,
-      :password => db.password,
-      :database => db.path[1..-1],
+      :adapter  => db_settings["adapter"],
+      :host     => db_settings["host"],
+      :username => db_settings["username"],
+      :password => db_settings["password"],
+      :database => db_settings["database"],
       :encoding => 'utf8'
   )
 end
