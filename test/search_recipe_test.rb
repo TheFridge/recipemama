@@ -6,6 +6,19 @@ class SearchRequestTest < Minitest::Test
     @searchrecipe = SearchRecipe.new
   end
 
+  def test_basic_search
+    VCR.use_cassette('basic_search') do
+      assert_equal 50, @searchrecipe.basic_search(50).count
+    end
+  end
+
+  def test_get_attributes
+    VCR.use_cassette('small_basic_search', :record => :new_episodes) do
+      search_results = @searchrecipe.basic_search(2)
+      assert_equal 50, @searchrecipe.get_attributes(search_results)
+    end
+  end
+
   def test_allowed_ingredients_formats_correctly
     assert_equal "&allowedIngredient[]=garlic&allowedIngredient[]=cognac", @searchrecipe.allowed_ingredients('garlic', 'cognac')
     assert_equal "&allowedIngredient[]=onion%20soup%20mix&allowedIngredient[]=cognac", @searchrecipe.allowed_ingredients('onion soup mix', 'cognac')
