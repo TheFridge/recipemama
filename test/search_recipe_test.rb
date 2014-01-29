@@ -10,7 +10,7 @@ class SearchRequestTest < Minitest::Test
     VCR.use_cassette('new_recipe', :record => :new_episodes) do
       search_results = @searchrecipe.basic_search(1)
       answer = @searchrecipe.get_attributes(search_results).first
-      assert_equal 'boo', Recipe.new.create_recipe(answer)
+      assert_equal true, Recipe.new.create_recipe(answer)
     end
   end
 
