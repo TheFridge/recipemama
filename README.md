@@ -5,6 +5,8 @@
 
 Visiting the home page will give you a random dinner recipe rendered in JSON from the Yummly API
 
+![alt text](https://github.com/TheFridge/recipemama/blob/master/presentation/JSON_i1.png?raw=true, "JSON1")
+
 --
 # Database
 
