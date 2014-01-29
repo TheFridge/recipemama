@@ -8,9 +8,14 @@ class SearchRequestTest < Minitest::Test
 
   def test_generate_recipe
     VCR.use_cassette('new_recipe', :record => :new_episodes) do
+      assert_equal 0, Ingredient.all.count
+      assert_equal 0, Recipe.all.count
       search_results = @searchrecipe.basic_search(1)
       answer = @searchrecipe.get_attributes(search_results).first
-      assert_equal true, Recipe.new.create_recipe(answer)
+      Recipe.new.create_recipe(answer)
+      assert_equal 1, Recipe.all.count
+      assert_equal 17, Ingredient.all.count
+      assert_equal Recipe.first.id, Ingredient.first.recipe_id
     end
   end
 

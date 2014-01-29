@@ -7,5 +7,6 @@ require 'faraday'
 Dir[File.dirname(__FILE__) + '/models/*.rb'].each {|file| require file }
 
 get '/' do
-  'hello'
+  @recipe = GiveRecipe.generate_random
+  {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
 end
