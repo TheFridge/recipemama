@@ -17,4 +17,5 @@ production:
   encoding: unicode
   database: recipe_production
   pool: 5
-  username: u
+  username: rrgayhart
+  password:
