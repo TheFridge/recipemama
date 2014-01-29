@@ -6,6 +6,14 @@ class SearchRequestTest < Minitest::Test
     @searchrecipe = SearchRecipe.new
   end
 
+  def test_generate_recipe
+    VCR.use_cassette('new_recipe', :record => :new_episodes) do
+      search_results = @searchrecipe.basic_search(1)
+      answer = @searchrecipe.get_attributes(search_results).first
+      assert_equal 'boo', Recipe.new.create_recipe(answer)
+    end
+  end
+
   def test_basic_search
     VCR.use_cassette('basic_search') do
       assert_equal 50, @searchrecipe.basic_search(50).count
@@ -13,6 +21,7 @@ class SearchRequestTest < Minitest::Test
   end
 
   def test_get_attributes
+    skip
     VCR.use_cassette('small_basic_search', :record => :new_episodes) do
       search_results = @searchrecipe.basic_search(2)
       assert_equal 50, @searchrecipe.get_attributes(search_results)

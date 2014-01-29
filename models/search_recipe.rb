@@ -19,7 +19,7 @@ class SearchRecipe
 
   def format_recipe_data(full_recipes)
     full_recipes.map do |recipe|
-      {name: recipe['name'], total_time: recipe['totalTime'], seconds: recipe['totalTimeInSeconds'], source: recipe['source']["sourceRecipeUrl"], servings: recipe['numberOfServings'], images: recipe['images'], ingredients: recipe['ingredientLines']}
+      {name: recipe['name'], total_time: recipe['totalTime'], seconds: recipe['totalTimeInSeconds'], source_url: recipe['source']["sourceRecipeUrl"], servings: recipe['numberOfServings'], images: recipe['images'], ingredients: recipe['ingredientLines'], yummly_id: recipe['id']}
     end
   end
 
