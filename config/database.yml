@@ -11,11 +11,3 @@ test:
   host: localhost
   username: rrgayhart
   password:
-
-production:
-  adapter: postgresql
-  encoding: unicode
-  database: recipe_production
-  pool: 5
-  username: ihubynqxlcabpv
-  password:
