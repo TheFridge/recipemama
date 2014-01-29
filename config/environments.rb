@@ -1,7 +1,7 @@
 configure :production, :development, :test do
   env = ENV['RACK_ENV'] || "development"
 
-  db_settings = YAML.load(ERB.new(File.open("config/database.yml")))[env]
+  db_settings = YAML.load(ERB.new(File.read(File.join("config", "database.yml"))).result)[env]
   
   ActiveRecord::Base.establish_connection(
       :adapter  => db_settings["adapter"],
