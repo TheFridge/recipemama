@@ -26,6 +26,22 @@ class SearchRequestTest < Minitest::Unit::TestCase
     end
   end
 
+  def test_basic_search_response
+    VCR.use_cassette('basic_search2') do
+      result = [{"yummly_id"=>"Slow-cooker-lemon-honey-and-dijon-chicken-dinner-334881", "ingredients"=>["boneless, skinless chicken breasts", "reduced sodium chicken broth", "pearl onions", "garlic", "dijon mustard", "kosher salt", "lemon", "red potato", "chopped parsley", "honey", "ground black pepper", "haricots verts", "thyme leaves"]}]
+      assert_equal result, @searchrecipe.basic_search(1)
+    end
+  end
+
+  def test_get_full_recipe_data_response 
+    VCR.use_cassette('basic_search2', :record => :new_episodes) do
+      search_results = @searchrecipe.basic_search(1)
+      full_recipes = @searchrecipe.get_full_recipe_data(search_results) #@searchrecipe.get_full_recipe_data(search_results)
+      passed_data = @searchrecipe.format_recipe_data(full_recipes)
+      assert_equal Array, passed_data.first[:basic_ingredients]
+    end
+  end
+
   def test_get_attributes
     skip
     VCR.use_cassette('small_basic_search', :record => :new_episodes) do

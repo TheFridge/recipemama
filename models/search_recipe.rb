@@ -3,7 +3,7 @@ class SearchRecipe
   def basic_search(num)
     search_parameters = "&q=main%20dishes" + max_results(num) + must_be_salty
     recipes = get_response(search_parameters)
-    recipes['matches'].map {|recipe| recipe['id'] }
+    recipes['matches'].map {|recipe| {'yummly_id' => recipe['id'], 'ingredients' => recipe['ingredients'] }}
   end
 
   def get_attributes(search_results)
@@ -11,15 +11,16 @@ class SearchRecipe
     format_recipe_data(full_recipes)
   end
 
-  def get_full_recipe_data(recipe_ids)
-    recipe_ids.map do |id|
-      GetRecipe.new.get_response(id)
+  def get_full_recipe_data(search_results)
+    search_results.map do |result|
+      get_recipe_call = GetRecipe.new
+      {'recipe' => get_recipe_call.get_response(result['yummly_id']), 'ingredients' => result['ingredients']}
     end
   end
 
   def format_recipe_data(full_recipes)
     full_recipes.map do |recipe|
-      {name: recipe['name'], total_time: recipe['totalTime'], seconds: recipe['totalTimeInSeconds'], source_url: recipe['source']["sourceRecipeUrl"], servings: recipe['numberOfServings'], images: recipe['images'], ingredients: recipe['ingredientLines'], yummly_id: recipe['id']}
+      {basic_ingredients: recipe['ingredients'],name: recipe['recipe']['name'], total_time: recipe['recipe']['totalTime'], seconds: recipe['recipe']['totalTimeInSeconds'], source_url: recipe['recipe']['source']["sourceRecipeUrl"], servings: recipe['recipe']['numberOfServings'], images: recipe['recipe']['images'], ingredients: recipe['recipe']['ingredientLines'], yummly_id: recipe['recipe']['id']}
     end
   end
 
