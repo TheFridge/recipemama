@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative './test_helper'
 
 class GiveRecipeTest < Minitest::Test
   def setup
@@ -9,6 +9,9 @@ class GiveRecipeTest < Minitest::Test
     Recipe.create
     Recipe.create
     assert_equal Recipe, GiveRecipe.generate_random.class
+  end
+
+  def test_it_provides_a_recipe_based_on_id
   end
 
 end

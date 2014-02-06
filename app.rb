@@ -10,3 +10,9 @@ get '/' do
   @recipe = GiveRecipe.generate_random
   {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
 end
+
+get '/:id' do
+  @recipe = GiveRecipe.generate_from_id(params[:id])
+  {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
+end
+
