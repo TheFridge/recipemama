@@ -1,8 +1,7 @@
 require_relative './test_helper'
 
-class GiveRecipeTest < Minitest::Test
+class GiveRecipeTest < Minitest::Unit::TestCase
   def setup
-    DatabaseCleaner.start
   end
 
   def test_it_provides_random_recipe
@@ -12,6 +11,12 @@ class GiveRecipeTest < Minitest::Test
   end
 
   def test_it_provides_a_recipe_based_on_id
+  end
+
+  def teardown
+    Allergy.destroy_all
+    Recipe.destroy_all
+    Ingredient.destroy_all
   end
 
 end

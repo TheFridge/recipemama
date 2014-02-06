@@ -1,9 +1,8 @@
-require 'test_helper'
+require_relative './test_helper'
 
-class GetRequestTest < Minitest::Test
+class GetRequestTest < Minitest::Unit::TestCase
 
   def setup
-    DatabaseCleaner.start
     @getrecipe = GetRecipe.new
     Key.create(application_id: ENV['YUMMLY_ID'], application_keys: ENV['YUMMLY_KEY'])
   end
@@ -21,6 +20,9 @@ class GetRequestTest < Minitest::Test
   # end
 
   def teardown
-    DatabaseCleaner.clean
+    Allergy.destroy_all
+    Recipe.destroy_all
+    Ingredient.destroy_all
   end
+
 end

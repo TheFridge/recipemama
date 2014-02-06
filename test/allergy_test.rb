@@ -1,8 +1,7 @@
-require 'test_helper'
+require_relative './test_helper'
 
-class AllergyTest < Minitest::Test
+class AllergyTest < Minitest::Unit::TestCase
   def setup
-    DatabaseCleaner.start
     @allergy = Allergy.new
   end
 
@@ -23,6 +22,8 @@ class AllergyTest < Minitest::Test
   end
 
   def teardown
-    DatabaseCleaner.clean
+    Allergy.destroy_all
+    Recipe.destroy_all
+    Ingredient.destroy_all
   end
 end

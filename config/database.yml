@@ -2,12 +2,12 @@ development:
   adapter: postgresql
   database: recipe_development
   host: localhost
-  username: wvmitchell
+  username: rrgayhart
   password:
 
 test:
   adapter: postgresql
   database: recipe_test
   host: localhost
-  username: wvmitchell
+  username: rrgayhart
   password:

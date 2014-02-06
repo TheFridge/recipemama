@@ -1,8 +1,8 @@
-require 'test_helper'
+require_relative './test_helper'
 
-class DietTest < Minitest::Test
+class DietTest < Minitest::Unit::TestCase
   def setup
-    DatabaseCleaner.start
+    Diet.destroy_all
     @diet = Diet.new
   end
 
@@ -16,6 +16,6 @@ class DietTest < Minitest::Test
   end
 
   def teardown
-    DatabaseCleaner.clean
+    Diet.destroy_all
   end
 end
