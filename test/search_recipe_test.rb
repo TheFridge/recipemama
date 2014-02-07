@@ -38,7 +38,7 @@ class SearchRequestTest < Minitest::Unit::TestCase
       search_results = @searchrecipe.basic_search(1)
       full_recipes = @searchrecipe.get_full_recipe_data(search_results) #@searchrecipe.get_full_recipe_data(search_results)
       passed_data = @searchrecipe.format_recipe_data(full_recipes)
-      assert_equal Array, passed_data.first[:basic_ingredients]
+      assert_equal Array, passed_data.first[:basic_ingredients].class
     end
   end
 

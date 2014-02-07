@@ -9,7 +9,7 @@ class Recipe < ActiveRecord::Base
     self.image_url = args[:images][-1]["imageUrlsBySize"].values.last
     self.servings = args[:servings]
     self.yummly_id = args[:yummly_id]
-    self.ingredient_list = args[:basic_ingredients]
+    self.ingredient_list = args[:basic_ingredients].join("/")
     self.save
     args[:ingredients].each do |list_item|
       i = Ingredient.new
