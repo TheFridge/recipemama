@@ -20,8 +20,29 @@ class SearchRecipe
 
   def format_recipe_data(full_recipes)
     full_recipes.map do |recipe|
-      {basic_ingredients: recipe['ingredients'],name: recipe['recipe']['name'], total_time: recipe['recipe']['totalTime'], seconds: recipe['recipe']['totalTimeInSeconds'], source_url: recipe['recipe']['source']["sourceRecipeUrl"], servings: recipe['recipe']['numberOfServings'], images: recipe['recipe']['images'], ingredients: recipe['recipe']['ingredientLines'], yummly_id: recipe['recipe']['id']}
+      { basic_ingredients: [''], name: recipe['recipe']['name'], total_time: recipe['recipe']['totalTime'], seconds: recipe['recipe']['totalTimeInSeconds'], source_url: recipe['recipe']['source']["sourceRecipeUrl"], servings: recipe['recipe']['numberOfServings'], images: recipe['recipe']['images'], ingredients: recipe['recipe']['ingredientLines'], yummly_id: recipe['recipe']['id']}
     end
+  end
+
+  def format_ingredient_parameters(string)
+    string.downcase
+  end
+
+  def format_one_recipe(recipe)
+    #recipe
+    array = {:name => recipe["name"], :total_time => recipe['totalTime'], 
+      :seconds => recipe['totalTimeInSeconds'], :source_url => recipe['attribution']['url'], 
+      :images => recipe['images'], :servings => recipe['numberOfServings'], 
+      :yummly_id => recipe['id'], :basic_ingredients => [], :ingredients => recipe['ingredientLines']}
+    pull_basic_ingredients(array)
+  end
+
+  def pull_basic_ingredients(array)
+    array[:ingredients].each do |raw_ingredient|
+      formatted_raw = Ingreedy.parse(raw_ingredient)
+      array[:basic_ingredients] << formatted_raw.ingredient
+    end
+    array
   end
 
   # ["attribution", "ingredientLines", "flavors", "nutritionEstimates", "images", "name", "yield", "totalTime", "attributes", "totalTimeInSeconds", "rating", "numberOfServings", "source", "id"]""

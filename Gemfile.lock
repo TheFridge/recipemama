@@ -20,6 +20,7 @@ GEM
       multipart-post (~> 1.2.0)
     hashie (2.0.5)
     i18n (0.6.9)
+    ingreedy (0.0.4)
     json (1.8.1)
     minitest (5.2.2)
     minitest-reporters (1.0.0)
@@ -57,6 +58,7 @@ DEPENDENCIES
   activerecord
   database_cleaner
   faraday
+  ingreedy
   json
   minitest
   minitest-reporters
