@@ -16,7 +16,6 @@ class Recipe < ActiveRecord::Base
       i.description = list_item
       i.recipe_id = self.id
       i.save
-      self.ingredients << i
     end
   end
 
