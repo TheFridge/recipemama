@@ -34,7 +34,12 @@ post '/by_ingredient' do
     @recipe.create_recipe(formatted_recipe)
     {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
   else
-    {:error_message => "no matches for #{@ingredient}"}.to_json
+    @internal_recipe = Recipe.find_by("ingredient_list like ?", "%#{@ingredient}%")
+    if @internal_recipe
+      {recipe: @internal_recipe.first, ingredients: @internal_recipe.first.ingredients}.to_json
+    else
+      {:error_message => "no matches for #{@ingredient}"}.to_json
+    end
   end
 
 end
