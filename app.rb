@@ -30,10 +30,9 @@ post '/by_ingredient' do
     get = GetRecipe.new
     raw_recipe = get.get_response(id)
     formatted_recipe = search.format_one_recipe(raw_recipe)
-    formatted_recipe
-    @recipe = Recipe.new
-    @recipe.create_recipe(formatted_recipe)
-    Recipe.last
+    #@recipe = Recipe.new
+    #@recipe.create_recipe(formatted_recipe)
+    Recipe.last.to_json
     # @recipe.to_json
     #{recipe: new_recipe, ingredients: new_recipe.ingredients}.to_json
   #else
