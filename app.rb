@@ -22,7 +22,7 @@ post '/by_ingredient' do
   response = search.complex_search(formatted_array)
   @one_ingredient = formatted_array.first
   if response['error']
-    @internal_recipe = Recipe.find_by("ingredient_list like ?", "%#{@one_ingredient}%")
+    @internal_recipe = Recipe.last#find_by("ingredient_list like ?", "%#{@one_ingredient}%")
     if @internal_recipe
       {recipe: @internal_recipe, ingredients: @internal_recipe.ingredients}.to_json
     else
@@ -44,7 +44,7 @@ post '/by_ingredient' do
       @recipe.create_recipe(formatted_recipe)
       {recipe: Recipe.last, ingredients: Recipe.last.ingredients}.to_json
     else
-      @internal_recipe = Recipe.find_by("ingredient_list like ?", "%#{@one_ingredient}%")
+      @internal_recipe = Recipe.last#find_by("ingredient_list like ?", "%#{@one_ingredient}%")
       if @internal_recipe
         {recipe: @internal_recipe.first, ingredients: @internal_recipe.first.ingredients}.to_json
       else
