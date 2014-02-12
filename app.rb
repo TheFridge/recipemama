@@ -13,10 +13,10 @@ get '/' do
 end
 
 post '/by_ingredient' do
-  request.body
-  # search = SearchRecipe.new
-  # params_body = JSON.parse(request.body)
-  # params_array = params_body['ingredients']
+  params_body = JSON.parse(request.body)
+  search = SearchRecipe.new
+  @params_array = params_body['ingredients']
+  @params_array
   # formatted_array = search.format_ingredient_parameters(params_array)
   # formatted_array.compact!
   # ingredient_count = formatted_array.count
