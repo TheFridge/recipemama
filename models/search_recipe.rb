@@ -121,7 +121,7 @@ class SearchRecipe
   end
 
   def max_results(num)
-    "&maxResult=#{num}&start=10"
+    "&maxResult=#{num}&start=200"
   end
 
   def must_be_salty
