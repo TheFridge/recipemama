@@ -32,7 +32,7 @@ post '/by_ingredient' do
     formatted_recipe = search.format_one_recipe(raw_recipe)
     @recipe = Recipe.new
     new_recipe = @recipe.create_recipe(formatted_recipe)
-    new_recipe.to_json
+    new_recipe
     #{recipe: new_recipe, ingredients: new_recipe.ingredients}.to_json
   #else
   #   @internal_recipe = Recipe.find_by("ingredient_list like ?", "%#{@ingredient}%")
