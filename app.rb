@@ -17,13 +17,14 @@ post '/by_ingredient' do
   search = SearchRecipe.new
   params_array = params_body['ingredients']
   formatted_array = search.format_ingredient_parameters(params_array)
-  formatted_array.compact!.to_json
-  #ingredient_count = formatted_array.count
-  #response = search.complex_search(formatted_array)
-  # until response['matches'].any? || ingredient_count == 0
-  #   formatted_array.pop
-  #   response = search.complex_search(formatted_array)
-  # end
+  formatted_array.compact!
+  ingredient_count = formatted_array.count
+  response = search.complex_search(formatted_array)
+   until response['matches'].any? || ingredient_count == 0
+     formatted_array.pop
+     response = search.complex_search(formatted_array)
+   end
+   response.to_json
   # number = rand(0..response['matches'].count - 1)
   # if response['matches'].count > 0
   #   id = response['matches'][number]['id']
