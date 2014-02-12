@@ -33,7 +33,7 @@ post '/by_ingredient' do
     #@recipe = Recipe.new
     #@recipe.create_recipe(formatted_recipe)
     #Recipe.last.to_json
-    {'class' => formatted_recipe.class.to_s}.to_json
+    formatted_recipe.to_json
     # @recipe.to_json
     #{recipe: new_recipe, ingredients: new_recipe.ingredients}.to_json
   #else
