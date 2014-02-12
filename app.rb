@@ -23,7 +23,7 @@ post '/by_ingredient' do
   if response['error']
     @internal_recipe = Recipe.find_by("ingredient_list like ?", "%#{@ingredient}%")
     if @internal_recipe
-      {recipe: @internal_recipe.first, ingredients: @internal_recipe.first.ingredients}.to_json
+      {recipe: @internal_recipe, ingredients: @internal_recipe.ingredients}.to_json
     else
     {:error_message => "no matches for #{@ingredient}"}.to_json
     end
