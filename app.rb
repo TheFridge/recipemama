@@ -24,17 +24,16 @@ post '/by_ingredient' do
      formatted_array.pop
      response = search.complex_search(formatted_array)
    end
-   response.to_json
-  # number = rand(0..response['matches'].count - 1)
-  # if response['matches'].count > 0
-  #   id = response['matches'][number]['id']
-  #   get = GetRecipe.new
-  #   raw_recipe = get.get_response(id)
-  #   formatted_recipe = search.format_one_recipe(raw_recipe)
-  #   @recipe = Recipe.new
-  #   @recipe.create_recipe(formatted_recipe)
-  #   {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
-  # else
+  number = rand(0..response['matches'].count - 1)
+  #if response['matches'].count > 0
+    id = response['matches'][number]['id']
+    get = GetRecipe.new
+    raw_recipe = get.get_response(id)
+    formatted_recipe = search.format_one_recipe(raw_recipe)
+    @recipe = Recipe.new
+    @recipe.create_recipe(formatted_recipe)
+    {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
+  #else
   #   @internal_recipe = Recipe.find_by("ingredient_list like ?", "%#{@ingredient}%")
   #   if @internal_recipe
   #     {recipe: @internal_recipe.first, ingredients: @internal_recipe.first.ingredients}.to_json
