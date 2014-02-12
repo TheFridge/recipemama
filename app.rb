@@ -29,7 +29,7 @@ post '/by_ingredient' do
     id = response['matches'][number]['id']
     get = GetRecipe.new
     raw_recipe = get.get_response(id)
-    formatted_recipe = search.format_one_recipe(raw_recipe)
+    formatted_recipe = search.format_one_recipe(raw_recipe).to_json
     #@recipe = Recipe.new
     #@recipe.create_recipe(formatted_recipe)
     # {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
