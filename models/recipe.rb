@@ -1,5 +1,5 @@
 class Recipe < ActiveRecord::Base
-    has_many :ingredients
+  has_many :ingredients
 
   def create_recipe(args)
     self.name = args[:name]
@@ -16,6 +16,7 @@ class Recipe < ActiveRecord::Base
       i.description = list_item
       i.recipe_id = self.id
       i.save
+      self.ingredients << i
     end
   end
 
