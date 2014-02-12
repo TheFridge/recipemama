@@ -7,7 +7,7 @@ class SearchRecipe
   end
 
   def basic_search(num)
-    search_parameters = "&q=main%20dishes" + max_results(num) + must_be_salty
+    search_parameters = "&q=main%20dishes" + max_results(num) + must_be_salty + "&allowedIngredient[]=pork"
     recipes = get_response(search_parameters)
     recipes['matches'].map {|recipe| {'yummly_id' => recipe['id'], 'ingredients' => recipe['ingredients'] }}
   end
