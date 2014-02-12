@@ -25,9 +25,9 @@ post '/by_ingredient' do
      response = search.complex_search(formatted_array)
    end
    response_count = response['matches'].count
-  number = rand(0..response_count - 1)
+   number = rand(0..response_count - 1)
   #if response['matches'].count > 0
-    id = response_count[number]['id']
+    id = response['matches'][number]['id']
     get = GetRecipe.new
     raw_recipe = get.get_response(id)
     formatted_recipe = search.format_one_recipe(raw_recipe)
