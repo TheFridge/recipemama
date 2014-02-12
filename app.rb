@@ -13,7 +13,7 @@ get '/' do
 end
 
 post '/by_ingredient' do
-  params[:body].to_json
+  params.to_json
   # search = SearchRecipe.new
   # params_body = JSON.parse(request.body)
   # params_array = params_body['ingredients']
