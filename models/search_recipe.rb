@@ -73,7 +73,11 @@ class SearchRecipe
   def get_response(search_parameters)
     url = get_url(search_parameters)
     response = Faraday.get(url)
-    JSON.parse(response.body)
+    if response.status == 409
+      {'error' => 'erroneous'}
+    else
+      JSON.parse(response.body)
+    end
   end
 
   def get_array_response(array)
