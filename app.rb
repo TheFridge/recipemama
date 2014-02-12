@@ -34,14 +34,14 @@ post '/by_ingredient' do
     @recipe = Recipe.new
     @recipe.create_recipe(formatted_recipe)
     {recipe: Recipe.last, ingredients: Recipe.last.ingredients}.to_json
-  #else
-  #   @internal_recipe = Recipe.find_by("ingredient_list like ?", "%#{@ingredient}%")
-  #   if @internal_recipe
-  #     {recipe: @internal_recipe.first, ingredients: @internal_recipe.first.ingredients}.to_json
-  #   else
-  #     {:error_message => "no matches for #{@ingredient}"}.to_json
-  #   end
-  # end
+  else
+    @internal_recipe = Recipe.find_by("ingredient_list like ?", "%#{@ingredient}%")
+    if @internal_recipe
+      {recipe: @internal_recipe.first, ingredients: @internal_recipe.first.ingredients}.to_json
+    else
+      {:error_message => "no matches for #{@ingredient}"}.to_json
+    end
+ end
 end
 
 get '/:id' do
