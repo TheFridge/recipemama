@@ -27,11 +27,11 @@ post '/by_ingredient' do
   number = rand(0..response['matches'].count - 1)
   #if response['matches'].count > 0
     id = response['matches'][number]['id']
-     get = GetRecipe.new
-     raw_recipe = get.get_response(id)
-     formatted_recipe = search.format_one_recipe(raw_recipe).to_json
-    # @recipe = Recipe.new
-    # @recipe.create_recipe(formatted_recipe)
+    get = GetRecipe.new
+    raw_recipe = get.get_response(id)
+    formatted_recipe = search.format_one_recipe(raw_recipe)
+    @recipe = Recipe.new
+    @recipe.create_recipe(formatted_recipe).to_json
     # {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
   #else
   #   @internal_recipe = Recipe.find_by("ingredient_list like ?", "%#{@ingredient}%")
