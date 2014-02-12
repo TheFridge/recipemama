@@ -12,21 +12,21 @@ get '/' do
   {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
 end
 
-get '/:id' do
-  @recipe = GiveRecipe.generate_from_id(params[:id])
-  {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
-end
-
-#curl --data "ingredient=milk" http://localhost:4567/by_ingredient
-
 post '/by_ingredient' do
   search = SearchRecipe.new
-  @ingredient = search.format_ingredient_parameters(params[:ingredient])
-  parameters = search.allowed_ingredients(@ingredient) + search.max_results(50)
-  url = search.get_response(parameters)
-  number = rand(0..url['matches'].count - 1)
-  if url['matches'].count > 0
-    id = url['matches'][number]['id']
+  params_array = JSON.parse(params[:ingredients])
+  #params_array = ["low sodium chicken stock","soy sauce","rice wine vinegar","hoisin sauce","chinese chili paste","sesame oil","sugar","cornstarch","cloves minced garlic (about a half dozen dried red whole chilis","18 to 24 pieces popeye's chicken nuggets, or 3 order popeye's popcorn shrimp","scallion greens, sliced","Gumballs"]
+  formatted_array = search.format_ingredient_parameters(params_array)
+  formatted_array.compact!
+  ingredient_count = formatted_array.count
+  response = search.complex_search(formatted_array)
+  until response['matches'].any? || ingredient_count == 0
+    formatted_array.pop
+    response = search.complex_search(formatted_array)
+  end
+  number = rand(0..response['matches'].count - 1)
+  if response['matches'].count > 0
+    id = response['matches'][number]['id']
     get = GetRecipe.new
     raw_recipe = get.get_response(id)
     formatted_recipe = search.format_one_recipe(raw_recipe)
@@ -41,5 +41,37 @@ post '/by_ingredient' do
       {:error_message => "no matches for #{@ingredient}"}.to_json
     end
   end
-
 end
+
+get '/:id' do
+  @recipe = GiveRecipe.generate_from_id(params[:id])
+  {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
+end
+
+#curl --data "ingredient=milk" http://localhost:4567/by_ingredient
+
+# post '/by_ingredient' do
+  # search = SearchRecipe.new
+  # @ingredient_array = search.format_ingredient_parameters(params[:ingredient])
+  # @ingredient_array.compact!
+  # parameters = search.allowed_ingredients(@ingredient) + search.max_results(50)
+  # url = search.get_response(parameters)
+  # number = rand(0..url['matches'].count - 1)
+  # if url['matches'].count > 0
+  #   id = url['matches'][number]['id']
+  #   get = GetRecipe.new
+  #   raw_recipe = get.get_response(id)
+  #   formatted_recipe = search.format_one_recipe(raw_recipe)
+  #   @recipe = Recipe.new
+  #   @recipe.create_recipe(formatted_recipe)
+  #   {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
+  # else
+  #   @internal_recipe = Recipe.find_by("ingredient_list like ?", "%#{@ingredient}%")
+  #   if @internal_recipe
+  #     {recipe: @internal_recipe.first, ingredients: @internal_recipe.first.ingredients}.to_json
+  #   else
+  #     {:error_message => "no matches for #{@ingredient}"}.to_json
+  #   end
+  # end
+
+# end

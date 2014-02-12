@@ -1,5 +1,11 @@
 class SearchRecipe
 
+  def complex_search(formatted_array)
+    search_parameters = make_url_array(formatted_array)
+    url_params = search_parameters.join + max_results(50)
+    response = get_response(url_params)
+  end
+
   def basic_search(num)
     search_parameters = "&q=main%20dishes" + max_results(num) + must_be_salty
     recipes = get_response(search_parameters)
@@ -24,8 +30,19 @@ class SearchRecipe
     end
   end
 
-  def format_ingredient_parameters(string)
-    string.downcase
+  def format_ingredient_parameters(recipe_array)
+    formatted_array = recipe_array.map do |ingredient|
+      formatted_ingredient = GroceryListFormatter.check_name(ingredient)
+      formatted_ingredient.downcase if formatted_ingredient
+    end
+    formatted_array
+  end
+
+  def make_url_array(formatted_array)
+    url_array = formatted_array.map do |string|
+      allowed_ingredients(string)
+    end
+    url_array
   end
 
   def format_one_recipe(recipe)
@@ -59,6 +76,11 @@ class SearchRecipe
     JSON.parse(response.body)
   end
 
+  def get_array_response(array)
+    param_array = array.map do |ingredient|
+      allowed_ingredients(ingredient)
+    end
+  end
 
   def allowed_ingredients(*args)
     formatted_ingredients = args.map {|arg| "&allowedIngredient[]=" + arg}
