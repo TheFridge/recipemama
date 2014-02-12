@@ -14,7 +14,8 @@ end
 
 post '/by_ingredient' do
   search = SearchRecipe.new
-  params_array = JSON.parse(params['ingredients'])
+  params_body = JSON.parse(params)
+  params_array = params_body['ingredient_list']
   #params_array = ["low sodium chicken stock","soy sauce","rice wine vinegar","hoisin sauce","chinese chili paste","sesame oil","sugar","cornstarch","cloves minced garlic (about a half dozen dried red whole chilis","18 to 24 pieces popeye's chicken nuggets, or 3 order popeye's popcorn shrimp","scallion greens, sliced","Gumballs"]
   formatted_array = search.format_ingredient_parameters(params_array)
   formatted_array.compact!
