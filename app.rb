@@ -15,7 +15,7 @@ end
 post '/by_ingredient' do
   params_body = JSON.parse(request.body.read)
   search = SearchRecipe.new
-  @params_array = params_body['ingredients']
+  params_array = params_body['ingredients']
   formatted_array = search.format_ingredient_parameters(params_array)
   formatted_array.compact!.to_json
   #ingredient_count = formatted_array.count
