@@ -30,13 +30,7 @@ class SearchRecipe
     end
   end
 
-  def format_ingredient_parameters(recipe_array)
-    formatted_array = recipe_array.map do |ingredient|
-      formatted_ingredient = GroceryListFormatter.check_name(ingredient)
-      formatted_ingredient.downcase if formatted_ingredient
-    end
-    formatted_array
-  end
+
 
   def make_url_array(formatted_array)
     url_array = formatted_array.map do |string|

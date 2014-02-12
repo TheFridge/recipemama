@@ -14,44 +14,50 @@ end
 
 post '/by_ingredient' do
   params_body = JSON.parse(request.body.read)
-  search = SearchRecipe.new
-  params_array = params_body['ingredients']
-  formatted_array = search.format_ingredient_parameters(params_array)
-  formatted_array.compact!
-  ingredient_count = formatted_array.count
-  response = search.complex_search(formatted_array)
-  @one_ingredient = formatted_array.first
-  if response['error']
-    @internal_recipe = Recipe.last#find_by("ingredient_list like ?", "%#{@one_ingredient}%")
-    if @internal_recipe
-      {recipe: @internal_recipe, ingredients: @internal_recipe.ingredients}.to_json
-    else
-    {:error_message => "no matches for #{@one_ingredient}"}.to_json
-    end
+  raw_ingredients = ByIngredient.read_params(params_body).dup
+  formatted_ingredients = ByIngredient.format_ingredient_parameters(raw_ingredients)
+  ingredient_count = formatted_ingredients.count
+  #response = ByIngredient.get_yummly_response(formatted_ingredients)
+  one_ingredient = ByIngredient.get_one_ingredient(formatted_ingredients)
+  #if response['error']
+  internal_ingredient = ByIngredient.get_internal_ingredient(one_ingredient)
+  if internal_ingredient
+    @internal_recipe = internal_ingredient.recipe
   else
-    until response['matches'].any? || ingredient_count == 0
-      formatted_array.pop
-      response = search.complex_search(formatted_array)
-    end
-    response_count = response['matches'].count
-    number = rand(0..response_count - 1)
-    if response['matches'].count > 0
-      id = response['matches'][number]['id']
-      get = GetRecipe.new
-      raw_recipe = get.get_response(id)
-      formatted_recipe = search.format_one_recipe(raw_recipe)
-      @recipe = Recipe.new
-      @recipe.create_recipe(formatted_recipe)
-      {recipe: Recipe.last, ingredients: Recipe.last.ingredients}.to_json
-    else
-      @internal_recipe = Recipe.last#find_by("ingredient_list like ?", "%#{@one_ingredient}%")
-      if @internal_recipe
-        {recipe: @internal_recipe.first, ingredients: @internal_recipe.first.ingredients}.to_json
-      else
-        {:error_message => "no matches for #{@one_ingredient}"}.to_json
-      end
-   end
+    @internal_recipe = GiveRecipe.generate_random
   end
+  {recipe: @internal_recipe, ingredients: @internal_recipe.ingredients}.to_json
+    #if internal_ingredient
+  #end 
+  #   if @internal_recipe
+  #     {recipe: @internal_recipe, ingredients: @internal_recipe.ingredients}.to_json
+  #   else
+  #   {:error_message => "no matches for "}.to_json
+  #   end
+  # else
+  #   until response['matches'].any? || ingredient_count == 0
+  #     formatted_array.pop
+  #     response = search.complex_search(formatted_array)
+  #   end
+  #   response_count = response['matches'].count
+  #   number = rand(0..response_count - 1)
+  #   if response['matches'].count > 0
+  #     id = response['matches'][number]['id']
+  #     get = GetRecipe.new
+  #     raw_recipe = get.get_response(id)
+  #     formatted_recipe = search.format_one_recipe(raw_recipe)
+  #     @recipe = Recipe.new
+  #     @recipe.create_recipe(formatted_recipe)
+  #     {recipe: Recipe.last, ingredients: Recipe.last.ingredients}.to_json
+  #   else
+  #     @internal_recipe = Recipe.last#find_by("ingredient_list like ?", "%#{@one_ingredient}%")
+  #     if @internal_recipe
+  #       {recipe: @internal_recipe, ingredients: @internal_recipe.ingredients}.to_json
+  #     else
+  #       {:error_message => "no matches for"}.to_json
+  #     end
+  #  end
+  # end
 end
 
 get '/:id' do
