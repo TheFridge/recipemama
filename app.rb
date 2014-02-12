@@ -13,9 +13,9 @@ get '/' do
 end
 
 post '/by_ingredient' do
-  params_body = JSON.parse(request.body)
+  params_body = JSON.parse(request.body.read)
   #search = SearchRecipe.new
-  {'h' => params_body.class}.to_json
+  {'h' => params_body}.to_json
   #@params_array = params_body['ingredients']
   #@params_array.to_json
   # formatted_array = search.format_ingredient_parameters(params_array)
