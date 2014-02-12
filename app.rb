@@ -26,7 +26,7 @@ post '/by_ingredient' do
    end
    response_count = response['matches'].count
    number = rand(0..response_count - 1)
-  #if response['matches'].count > 0
+  if response['matches'].count > 0
     id = response['matches'][number]['id']
     get = GetRecipe.new
     raw_recipe = get.get_response(id)
