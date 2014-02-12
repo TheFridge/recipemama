@@ -27,9 +27,8 @@ post '/by_ingredient' do
   number = rand(0..response['matches'].count - 1)
   #if response['matches'].count > 0
     id = response['matches'][number]['id']
-    {number => id}.to_json
-    # get = GetRecipe.new
-    # raw_recipe = get.get_response(id)
+     get = GetRecipe.new
+     raw_recipe = get.get_response(id).to_json
     # formatted_recipe = search.format_one_recipe(raw_recipe)
     # @recipe = Recipe.new
     # @recipe.create_recipe(formatted_recipe)
