@@ -6,7 +6,7 @@ class Recipe < ActiveRecord::Base
     self.total_time = args[:total_time]
     self.seconds = args[:seconds].to_i
     self.source_url = args[:source_url]
-    self.image_url = args[:images][-1]["imageUrlsBySize"].values.last
+    self.image_url = args[:images][-1]["imageUrlsBySize"].values.last if args[:images].any?
     self.servings = args[:servings]
     self.yummly_id = args[:yummly_id]
     self.ingredient_list = args[:basic_ingredients].join("/")
