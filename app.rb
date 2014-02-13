@@ -58,6 +58,10 @@ get '/:id' do
   {recipe: @recipe, ingredients: @recipe.ingredients}.to_json
 end
 
+get '/ping/ping' do
+  'PONG'
+end
+
 #curl --data "ingredient=milk" http://localhost:4567/by_ingredient
 
 # post '/by_ingredient' do
