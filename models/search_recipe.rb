@@ -7,7 +7,7 @@ class SearchRecipe
   end
 
   def basic_search(num)
-    search_parameters = "&q=main%20dishes" + max_results(num) + must_be_salty
+    search_parameters = "&q=main%20dishes" + max_results(num) + must_be_salty + "&allowedIngredient[]=pork"
     recipes = get_response(search_parameters)
     recipes['matches'].map {|recipe| {'yummly_id' => recipe['id'], 'ingredients' => recipe['ingredients'] }}
   end
@@ -30,13 +30,7 @@ class SearchRecipe
     end
   end
 
-  def format_ingredient_parameters(recipe_array)
-    formatted_array = recipe_array.map do |ingredient|
-      formatted_ingredient = GroceryListFormatter.check_name(ingredient)
-      formatted_ingredient.downcase if formatted_ingredient
-    end
-    formatted_array
-  end
+
 
   def make_url_array(formatted_array)
     url_array = formatted_array.map do |string|
@@ -127,7 +121,7 @@ class SearchRecipe
   end
 
   def max_results(num)
-    "&maxResult=#{num}&start=10"
+    "&maxResult=#{num}&start=200"
   end
 
   def must_be_salty
